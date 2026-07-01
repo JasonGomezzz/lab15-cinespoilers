@@ -29,7 +29,19 @@
 - Compilación TS: sin errores | ESLint: limpio
 
 ### e. Pages desarrolladas
-_(pendiente — Punto 3 en progreso)_
+
+![Home - listado de populares](docs/evidencia5.png)
+![Búsqueda por título](docs/evidencia6.png)
+![Detalle de película](docs/evidencia7.png)
+
+- Conectado a datos reales de TMDB (se eliminó el mock `src/data/movies.ts`)
+- Home: populares por defecto, cambia a resultados de búsqueda con debounce
+- Detalle: backdrop, póster, tagline, géneros, runtime, rating, overview
+- Botón "Add to cart / In cart — remove" conectado al store de Zustand
+- Estados de loading (skeletons), error (con retry) y "sin resultados" manejados
+- Página 404 agregada para rutas no encontradas
+- Build de producción: `npm run build` → 2013 módulos, exit 0
+- TypeScript y ESLint: limpios
 
 ### f. Pasarela de pago (simulación)
 _(pendiente — Punto 4)_
