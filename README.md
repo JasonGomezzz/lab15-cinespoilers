@@ -43,8 +43,13 @@
 - Build de producción: `npm run build` → 2013 módulos, exit 0
 - TypeScript y ESLint: limpios
 
-### f. Pasarela de pago (simulación)
-_(pendiente — Punto 4)_
+## f. Pasarela de pago (simulación)
 
-### g. Tests
-_(pendiente — Punto 5)_
+![Checkout - pasarela de pago simulada](docs/evidencia8.png)
+
+- Página de checkout con resumen de orden (order summary) y formulario de pago simulado
+- Carrito muestra items agregados desde el detalle, con precio fijo ($9.99 c/u) y total calculado
+- Formulario: cardholder name, card number, expiry (MM/YY), CVV — con validación básica
+- Sin integración a proveedor de pagos real (100% simulado)
+- Botón "Pay $X.XX" dispara `startPurchase()` → `completePurchase()` del store de Zustand
+- Opción de remover items del carrito antes de pagar (botón ×)
