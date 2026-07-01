@@ -1,51 +1,43 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 
 import PageContainer from "@/components/layout/page-container";
+import MoviesError from "@/components/movies/movies-error";
+import MoviesGridSkeleton from "@/components/movies/movies-grid-skeleton";
 import MoviesList from "@/components/movies/movies-list";
 import MoviesPageHeader from "@/components/movies/movies-page-header";
 import MoviesSearch from "@/components/movies/movies-search";
-import { movies } from "@/data/movies";
+import { useDebouncedValue } from "@/hooks/use-debounced-value";
+import { usePopularMovies, useSearchMovies } from "@/hooks/use-movies";
 
 const MoviesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedGenre, setSelectedGenre] = useState("all");
+  const debouncedSearch = useDebouncedValue(searchTerm.trim(), 400);
+  const isSearchActive = debouncedSearch.length > 0;
 
-  const availableMovies = movies;
+  const popularQuery = usePopularMovies();
+  const searchQuery = useSearchMovies(debouncedSearch);
 
-  const genres = useMemo(() => {
-    return Array.from(
-      new Set(availableMovies.map((movie) => movie.genre)),
-    ).sort();
-  }, [availableMovies]);
-
-  const filteredMovies = useMemo(() => {
-    const normalizedSearchTerm = searchTerm.trim().toLowerCase();
-
-    return availableMovies.filter((movie) => {
-      const matchesTitle = movie.title
-        .toLowerCase()
-        .includes(normalizedSearchTerm);
-      const matchesGenre =
-        selectedGenre === "all" || movie.genre === selectedGenre;
-
-      return matchesTitle && matchesGenre;
-    });
-  }, [availableMovies, searchTerm, selectedGenre]);
+  const activeQuery = isSearchActive ? searchQuery : popularQuery;
+  const movies = activeQuery.data?.results ?? [];
 
   return (
     <PageContainer>
       <MoviesPageHeader />
 
       <MoviesSearch
-        genres={genres}
-        resultsCount={filteredMovies.length}
         searchTerm={searchTerm}
-        selectedGenre={selectedGenre}
-        onGenreChange={setSelectedGenre}
+        resultsCount={movies.length}
+        isFetching={activeQuery.isFetching}
         onSearchTermChange={setSearchTerm}
       />
 
-      <MoviesList movies={filteredMovies} />
+      {activeQuery.isLoading ? (
+        <MoviesGridSkeleton />
+      ) : activeQuery.isError ? (
+        <MoviesError onRetry={() => activeQuery.refetch()} />
+      ) : (
+        <MoviesList movies={movies} />
+      )}
     </PageContainer>
   );
 };

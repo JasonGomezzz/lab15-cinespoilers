@@ -1,10 +1,10 @@
+import { Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import type { Movie } from "@/types/movie";
+import { getPosterUrl } from "@/lib/tmdb-image";
+import type { TmdbMovie } from "@/types/tmdb";
 
-import {
-  Badge,
-} from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
@@ -13,35 +13,51 @@ import {
 } from "@/components/ui/card";
 
 interface Props {
-  movie: Movie;
+  movie: TmdbMovie;
 }
 
 const MovieCard = ({ movie }: Props) => {
+  const releaseYear = movie.release_date?.slice(0, 4) || "—";
+  const rating = movie.vote_average ? movie.vote_average.toFixed(1) : "N/A";
+
   return (
     <article>
-      <Card className="overflow-hidden">
-        <img
-          src={movie.posterUrl}
-          alt={movie.title}
-          className="aspect-2/3 w-full object-cover"
-        />
+      <Card className="h-full overflow-hidden">
+        <Link
+          to={`/movies/${movie.id}`}
+          className="block"
+        >
+          <img
+            src={getPosterUrl(movie.poster_path, "w500")}
+            alt={movie.title}
+            loading="lazy"
+            className="aspect-2/3 w-full object-cover"
+          />
+        </Link>
 
         <CardHeader className="gap-3">
-          <Badge
-            variant="secondary"
-            className="w-fit"
-          >
-            {movie.genre}
-          </Badge>
+          <div className="flex items-center justify-between gap-2">
+            <Badge
+              variant="secondary"
+              className="w-fit"
+            >
+              {releaseYear}
+            </Badge>
 
-          <CardTitle>
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <Star className="h-3.5 w-3.5 fill-yellow-400 text-yellow-400" />
+              {rating}
+            </span>
+          </div>
+
+          <CardTitle className="line-clamp-1">
             {movie.title}
           </CardTitle>
         </CardHeader>
 
         <CardContent>
-          <p className="mb-4 text-sm text-muted-foreground">
-            {movie.synopsis}
+          <p className="mb-4 line-clamp-3 text-sm text-muted-foreground">
+            {movie.overview || "No synopsis available."}
           </p>
 
           <Link

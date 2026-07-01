@@ -1,9 +1,9 @@
-import type { Movie } from "@/types/movie";
+import type { TmdbMovie } from "@/types/tmdb";
 
 import MovieCard from "./movie-card";
 
 interface Props {
-  movies: Movie[];
+  movies: TmdbMovie[];
 }
 
 const MoviesList = ({
@@ -17,7 +17,7 @@ const MoviesList = ({
         </h2>
 
         <p className="mt-2 text-sm text-muted-foreground">
-          Try another title or genre.
+          Try another title.
         </p>
       </section>
     );
