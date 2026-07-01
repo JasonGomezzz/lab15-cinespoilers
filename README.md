@@ -1,75 +1,38 @@
-# React + TypeScript + Vite
+# CineSpoilers - Lab 15
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Evidencias del laboratorio
 
-Currently, two official plugins are available:
+### a-b. Clonar y levantar el proyecto
+![Terminal: clone, install y dev](docs/evidencia1.png)
+![Navegador: proyecto corriendo](docs/evidencia2.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Repo clonado desde `elliotgaramendi/cinespoilers`
+- `npm install` sin errores
+- `npm run dev` levanta en `http://localhost:5174`
 
-## React Compiler
+### c. Consumir data de TMDB
+![Servicio TMDB](docs/evidencia4.png)
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- Servicio creado: `src/services/tmdb-service.ts`, `src/services/tmdb-client.ts`
+- Auth vía Bearer token (v4) en `VITE_TMDB_TOKEN`
+- Integrado con TanStack Query
+- Token probado contra TMDB → HTTP 200
+- Compilación TS: sin errores | ESLint: sin errores nuevos
 
-Note: This will impact Vite dev & build performances.
+### d. Estado global (Zustand)
+![Store Zustand](docs/evidencia3.png)
 
-## Expanding the ESLint configuration
+- Instalado `zustand@5.0.14`
+- Archivo: `src/store/cine-store.ts`
+- 3 dominios: película seleccionada, carrito de compra, compra simulada
+- Carrito persistido en localStorage
+- Compilación TS: sin errores | ESLint: limpio
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### e. Pages desarrolladas
+_(pendiente — Punto 3 en progreso)_
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### f. Pasarela de pago (simulación)
+_(pendiente — Punto 4)_
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### g. Tests
+_(pendiente — Punto 5)_
